@@ -1,0 +1,29 @@
+/* styles.css - Additional custom styles beyond Tailwind + glassmorphism */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: 'Inter', system_ui, sans-serif;
+}
+
+.glass-card {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+}
+
+#floating-timer {
+    animation: pulse-float 2s infinite ease-in-out;
+}
+
+@keyframes pulse-float {
+    0%, 100% { box-shadow: 0 0 20px -5px rgb(0 180 255); }
+    50% { box-shadow: 0 0 40px 10px rgb(0 180 255); }
+}
+
+.text-blue-400 {
+    color: #00b4ff;
+}

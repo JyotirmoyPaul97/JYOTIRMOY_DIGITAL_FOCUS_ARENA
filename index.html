@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Focus Arena • Level Up Your Focus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body class="bg-[#050505] text-white font-sans overflow-x-hidden">
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-blue-500/20">
+        <div class="max-w-screen-2xl mx-auto px-8 py-4 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-blue-500 rounded-2xl flex items-center justify-center text-2xl shadow-[0_0_15px_-3px] shadow-blue-500">⚔️</div>
+                <div>
+                    <span class="text-2xl font-bold tracking-tighter">DIGITAL</span>
+                    <span class="text-2xl font-bold tracking-tighter text-blue-400">FOCUS</span>
+                    <span class="text-2xl font-bold tracking-tighter">ARENA</span>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="hidden md:flex items-center gap-8 text-sm">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-fire text-orange-400"></i>
+                    <div>
+                        <span id="nav-streak" class="font-semibold">12</span>
+                        <span class="text-gray-400 text-xs ml-1">day streak 🔥</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-trophy text-yellow-400"></i>
+                    <div>
+                        <span id="nav-level" class="font-semibold">LVL 24</span>
+                        <span class="text-gray-400 text-xs ml-1">Arena Knight</span>
+                    </div>
+                </div>
+                <div onclick="showQuickStart()" class="cursor-pointer bg-blue-500 hover:bg-blue-600 transition-colors px-6 py-2 rounded-3xl text-sm font-medium flex items-center gap-2">
+                    <i class="fa-solid fa-bolt"></i>
+                    QUICK START SESSION
+                </div>
+            </div>
+
+            <!-- Right side -->
+            <div class="flex items-center gap-6">
+                <!-- Theme toggle -->
+                <button onclick="toggleTheme()" class="w-9 h-9 flex items-center justify-center rounded-2xl hover:bg-white/10 transition-colors">
+                    <i id="theme-icon" class="fa-solid fa-moon text-blue-400"></i>
+                </button>
+                
+                <!-- User -->
+                <div class="flex items-center gap-3">
+                    <div class="text-right">
+                        <div class="text-sm font-medium">Jyotirmoy</div>
+                        <div class="text-xs text-blue-400">Pune, India • Online</div>
+                    </div>
+                    <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-2xl flex items-center justify-center text-lg shadow-inner">👾</div>
+                </div>
+
+                <!-- Fullscreen Lock -->
+                <button onclick="toggleFullscreenLock()" 
+                        class="flex items-center gap-2 px-5 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl text-sm font-medium transition-all">
+                    <i class="fa-solid fa-expand"></i>
+                    <span id="lock-text" class="hidden sm:inline">LOCK MODE</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-16">
+        <!-- SIDEBAR -->
+        <div class="w-72 hidden lg:flex flex-col h-[calc(100vh-64px)] border-r border-blue-500/10 bg-[#0a0a0a]/70 backdrop-blur-2xl p-6 fixed left-0 overflow-y-auto">
+            <div onclick="navigateTo(0)" class="nav-item flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-blue-500/10 cursor-pointer mb-2 active">
+                <i class="fa-solid fa-house w-5"></i>
+                <span class="font-medium">Arena Dashboard</span>
+            </div>
+            <div onclick="navigateTo(1)" class="nav-item flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-blue-500/10 cursor-pointer mb-2">
+                <i class="fa-solid fa-stopwatch w-5"></i>
+                <span class="font-medium">Smart Timer</span>
+            </div>
+            <div onclick="navigateTo(2)" class="nav-item flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-blue-500/10 cursor-pointer mb-2">
+                <i class="fa-solid fa-chart-line w-5"></i>
+                <span class="font-medium">Analytics Arena</span>
+            </div>
+            <div onclick="navigateTo(3)" class="nav-item flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-blue-500/10 cursor-pointer mb-2">
+                <i class="fa-solid fa-users w-5"></i>
+                <span class="font-medium">Multiplayer Rooms</span>
+                <span class="ml-auto text-xs bg-blue-500 text-white px-2 py-0.5 rounded-full">LIVE</span>
+            </div>
+            <div onclick="navigateTo(4)" class="nav-item flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-blue-500/10 cursor-pointer mb-2">
+                <i class="fa-solid fa-shield-halved w-5"></i>
+                <span class="font-medium">Focus Blocker</span>
+            </div>
+            <div onclick="navigateTo(5)" class="nav-item flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-blue-500/10 cursor-pointer mb-2">
+                <i class="fa-solid fa-calendar w-5"></i>
+                <span class="font-medium">Smart Planner</span>
+            </div>
+            <div onclick="navigateTo(6)" class="nav-item flex items-center gap-4 px-4 py-4 rounded-3xl hover:bg-blue-500/10 cursor-pointer">
+                <i class="fa-solid fa-robot w-5"></i>
+                <span class="font-medium">AI Focus Coach</span>
+            </div>
+
+            <!-- Separator -->
+            <div class="my-8 border-t border-white/10"></div>
+
+            <!-- Immersive Themes -->
+            <div class="px-4 mb-6">
+                <p class="text-xs uppercase tracking-widest text-gray-400 mb-3">Immersive Themes</p>
+                <div class="grid grid-cols-3 gap-3">
+                    <div onclick="changeTheme(0)" class="theme-btn cursor-pointer bg-[#0a0a0a] border border-blue-400 rounded-2xl p-3 text-center text-sm">SPACE</div>
+                    <div onclick="changeTheme(1)" class="theme-btn cursor-pointer bg-[#111] border border-transparent hover:border-cyan-400 rounded-2xl p-3 text-center text-sm">NEON</div>
+                    <div onclick="changeTheme(2)" class="theme-btn cursor-pointer bg-[#0a0a0a] border border-transparent hover:border-purple-400 rounded-2xl p-3 text-center text-sm">VOID</div>
+                </div>
+            </div>
+
+            <div class="mt-auto px-4 py-6 bg-white/5 rounded-3xl text-xs">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-blue-400">Current Focus Score</span>
+                    <span id="sidebar-score" class="font-mono text-3xl font-bold text-blue-400">92</span>
+                </div>
+                <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div class="h-2 w-[92%] bg-gradient-to-r from-blue-400 to-cyan-400"></div>
+                </div>
+                <p class="text-gray-400 text-xs mt-3">+18 from yesterday • You're crushing it 🔥</p>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT AREA -->
+        <div id="main-content" class="flex-1 lg:ml-72 min-h-screen pb-20">
+            
+            <!-- SECTION 0: DASHBOARD -->
+            <div id="section-0" class="section px-8 py-8">
+                <h1 class="text-5xl font-bold tracking-tighter mb-2">Welcome back, Arena Knight 👾</h1>
+                <p class="text-xl text-gray-400 mb-8">Your focus battlefield is ready. Let's dominate today.</p>
+
+                <!-- Hero Quick Start -->
+                <div class="bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/30 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 mb-12">
+                    <div class="flex-1">
+                        <div class="inline-flex items-center gap-2 px-4 py-1 bg-blue-500/10 text-blue-400 rounded-3xl text-sm mb-4">
+                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                            READY TO ENTER THE ARENA
+                        </div>
+                        <h2 class="text-4xl font-semibold mb-4 leading-none">One click.<br>Instant deep focus.</h2>
+                        <button onclick="startInstantSession()" 
+                                class="mt-6 bg-white text-black hover:scale-105 transition-all font-semibold text-lg px-10 py-5 rounded-3xl flex items-center gap-3">
+                            <i class="fa-solid fa-play"></i>
+                            ENTER FOCUS ARENA NOW
+                        </button>
+                    </div>
+                    <div class="flex-1 grid grid-cols-3 gap-4">
+                        <div class="glass-card p-6 rounded-3xl text-center">
+                            <div class="text-4xl mb-3">🔥</div>
+                            <div class="text-sm text-gray-400">12 DAY STREAK</div>
+                        </div>
+                        <div class="glass-card p-6 rounded-3xl text-center">
+                            <div class="text-4xl mb-3">⏰</div>
+                            <div class="text-sm text-gray-400">BEST TIME: 10 AM</div>
+                        </div>
+                        <div class="glass-card p-6 rounded-3xl text-center relative">
+                            <div class="text-4xl mb-3">📈</div>
+                            <div class="text-sm text-gray-400">92% FOCUS SCORE</div>
+                            <div class="absolute top-4 right-4 text-xs bg-green-400 text-black px-3 py-1 rounded-3xl">+7%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Widgets Preview -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Adaptive Timer Widget -->
+                    <div class="glass-card p-8 rounded-3xl">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <div class="uppercase text-xs tracking-widest text-blue-400">ADAPTIVE TIMER</div>
+                                <div id="widget-timer" class="text-6xl font-mono font-semibold text-blue-400">42:18</div>
+                            </div>
+                            <button onclick="toggleWidgetTimer()" class="px-6 py-3 bg-blue-500 rounded-3xl text-sm">START</button>
+                        </div>
+                        <div class="flex gap-4 text-xs">
+                            <div class="flex-1 bg-white/5 rounded-2xl p-4">Smart mode<br><span class="text-blue-400">Pomodoro + AI</span></div>
+                            <div class="flex-1 bg-white/5 rounded-2xl p-4">Next break in<br><span class="text-blue-400">12 min</span></div>
+                        </div>
+                    </div>
+
+                    <!-- AI Coach Widget -->
+                    <div class="glass-card p-8 rounded-3xl">
+                        <div class="flex items-center gap-3 mb-6">
+                            <i class="fa-solid fa-robot text-3xl text-purple-400"></i>
+                            <div class="text-xl font-semibold">AI Focus Coach</div>
+                        </div>
+                        <p id="ai-nudge" class="text-gray-300 italic">"You usually lose focus after 28 minutes. Want me to trigger a 5-min micro-break with ambient rain?"</p>
+                        <button onclick="getNewNudge()" class="mt-8 text-blue-400 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-arrows-rotate"></i> NEW COACH INSIGHT
+                        </button>
+                    </div>
+
+                    <!-- Live Rooms Teaser -->
+                    <div onclick="navigateTo(3)" class="glass-card p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-all">
+                        <div class="flex justify-between">
+                            <div class="text-xl font-semibold">Multiplayer Arena</div>
+                            <div class="text-emerald-400 text-sm flex items-center gap-1"><span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> 184 online</div>
+                        </div>
+                        <p class="mt-8 text-4xl font-mono font-bold">3 rooms live</p>
+                        <div class="mt-6 flex -space-x-6">
+                            <div class="w-9 h-9 bg-purple-400 rounded-2xl flex items-center justify-center text-xs border-2 border-[#050505]">🔥</div>
+                            <div class="w-9 h-9 bg-cyan-400 rounded-2xl flex items-center justify-center text-xs border-2 border-[#050505]">📚</div>
+                            <div class="w-9 h-9 bg-amber-400 rounded-2xl flex items-center justify-center text-xs border-2 border-[#050505]">⚡</div>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-8">Compete in real-time. Top player gets +250 XP</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 1: SMART TIMER -->
+            <div id="section-1" class="section px-8 py-8 hidden">
+                <h1 class="text-4xl font-bold mb-8">Smart Focus Timer</h1>
+                
+                <div class="max-w-2xl mx-auto glass-card rounded-3xl p-12 text-center">
+                    <div class="mb-8">
+                        <select id="focus-mode" onchange="updateTimerMode()" class="bg-white/10 px-6 py-3 rounded-3xl text-sm outline-none">
+                            <option value="0">Deep Work Mode (AI Adaptive)</option>
+                            <option value="1">Pomodoro 25/5</option>
+                            <option value="2">Flow State 52/17</option>
+                            <option value="3">Ultra Focus (No breaks)</option>
+                        </select>
+                    </div>
+                    
+                    <div id="main-timer-display" class="text-[6rem] font-mono font-semibold text-blue-400 tracking-[-4px] mb-6">25:00</div>
+                    
+                    <div class="flex justify-center gap-4 mb-12">
+                        <button onclick="toggleTimer()" id="timer-btn"
+                                class="w-16 h-16 bg-blue-500 hover:bg-blue-600 rounded-3xl flex items-center justify-center text-3xl transition-all">
+                            ▶️
+                        </button>
+                        <button onclick="resetTimer()" class="w-16 h-16 bg-white/10 hover:bg-white/20 rounded-3xl flex items-center justify-center text-3xl">⟳</button>
+                    </div>
+                    
+                    <div class="grid grid-cols-4 gap-4 text-xs">
+                        <div class="glass-inner p-4 rounded-2xl">Distractions detected: <span id="distraction-count" class="font-mono text-red-400">2</span></div>
+                        <div class="glass-inner p-4 rounded-2xl">Focus score: <span id="live-focus-score" class="font-mono text-blue-400">94</span></div>
+                        <div class="glass-inner p-4 rounded-2xl">AI suggestion: <span id="ai-timer-tip" class="text-cyan-400">Extend by 7 mins</span></div>
+                        <div onclick="simulateDistraction()" class="glass-inner p-4 rounded-2xl cursor-pointer text-red-400">+ Simulate distraction</div>
+                    </div>
+                </div>
+                
+                <p class="text-center text-gray-400 mt-8 max-w-md mx-auto">Adaptive AI will automatically adjust break length based on your real-time distraction patterns.</p>
+            </div>
+
+            <!-- SECTION 2: ANALYTICS DASHBOARD -->
+            <div id="section-2" class="section px-8 py-8 hidden">
+                <h1 class="text-4xl font-bold mb-2">Analytics Arena</h1>
+                <p class="text-gray-400 mb-8">Not just hours — your full performance story.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Streaks & KPIs -->
+                    <div class="lg:col-span-5 glass-card rounded-3xl p-8">
+                        <h3 class="uppercase text-xs mb-6">Focus Streaks 🔥</h3>
+                        <div class="flex gap-6 items-end mb-8">
+                            <div class="text-center"><div class="text-5xl font-mono">12</div><div class="text-xs text-orange-400">CURRENT</div></div>
+                            <div class="flex-1 h-2 bg-orange-400/30 rounded-full"><div class="h-2 w-4/5 bg-orange-400 rounded-full"></div></div>
+                            <div class="text-center"><div class="text-5xl font-mono text-gray-400">18</div><div class="text-xs">BEST</div></div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-8">
+                            <div>
+                                <div class="text-sm text-gray-400 mb-2">Best performance time of day ⏰</div>
+                                <div class="text-4xl font-semibold">10:30 AM</div>
+                                <div class="text-xs text-blue-400">You average 91% focus</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400 mb-2">Distraction patterns 📉</div>
+                                <canvas id="distractionChart" class="h-40"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Weekly Report -->
+                    <div class="lg:col-span-7 glass-card rounded-3xl p-8">
+                        <h3 class="uppercase text-xs mb-4">Weekly Consistency Report</h3>
+                        <canvas id="weeklyChart" class="h-80"></canvas>
+                    </div>
+                    
+                    <!-- Session Summary Cards -->
+                    <div class="lg:col-span-12 grid grid-cols-3 gap-6">
+                        <div class="glass-card rounded-3xl p-6">
+                            <div class="flex justify-between"><span class="text-gray-400">Yesterday</span><span class="text-blue-400 font-medium">+41 XP</span></div>
+                            <div class="text-6xl font-mono mt-4">4h 12m</div>
+                            <div class="text-xs text-emerald-400">3 distractions • Focus score 88</div>
+                        </div>
+                        <div class="glass-card rounded-3xl p-6">
+                            <div class="flex justify-between"><span class="text-gray-400">This week</span><span class="text-blue-400 font-medium">+312 XP</span></div>
+                            <div class="text-6xl font-mono mt-4">21h 45m</div>
+                            <div class="text-xs text-emerald-400">Average daily streak: 11 days</div>
+                        </div>
+                        <div class="glass-card rounded-3xl p-6 bg-gradient-to-br from-purple-500/10 to-transparent">
+                            <div class="uppercase text-xs mb-1">GAMIFICATION</div>
+                            <div class="text-6xl font-mono">ARENA KNIGHT</div>
+                            <div class="mt-8 text-sm">Next level in <span class="font-bold">87 XP</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: MULTIPLAYER ROOMS -->
+            <div id="section-3" class="section px-8 py-8 hidden">
+                <h1 class="text-4xl font-bold mb-8 flex items-center gap-3">Multiplayer Focus Rooms <span class="text-emerald-400 text-sm font-normal bg-emerald-400/10 px-3 py-1 rounded-3xl">184 warriors online</span></h1>
+                
+                <div class="flex gap-4 mb-8">
+                    <button onclick="joinPublicRoom(0)" class="flex-1 glass-card p-6 rounded-3xl text-left hover:border-blue-400 transition-all">
+                        <div class="text-emerald-400 text-xs">PUBLIC • 14 joined</div>
+                        <div class="text-3xl font-semibold mt-3">Deep Work Chamber</div>
+                        <div class="flex justify-between mt-8"><span class="text-xs">Leader: @codegod42</span><span class="font-mono">52:41 elapsed</span></div>
+                    </button>
+                    <button onclick="joinPublicRoom(1)" class="flex-1 glass-card p-6 rounded-3xl text-left hover:border-blue-400 transition-all">
+                        <div class="text-emerald-400 text-xs">PUBLIC • 8 joined</div>
+                        <div class="text-3xl font-semibold mt-3">Neon Flow Arena</div>
+                        <div class="flex justify-between mt-8"><span class="text-xs">Leader: @focusninja</span><span class="font-mono">21:09 elapsed</span></div>
+                    </button>
+                </div>
+                
+                <div class="glass-card p-8 rounded-3xl">
+                    <h4 class="font-semibold mb-6">LIVE LEADERBOARD</h4>
+                    <table class="w-full">
+                        <thead><tr class="text-xs text-gray-400"><td class="pb-4">RANK</td><td class="pb-4">WARRIOR</td><td class="pb-4 text-right">FOCUS SCORE</td><td class="pb-4 text-right">TIME</td></tr></thead>
+                        <tbody id="leaderboard-body" class="font-mono text-sm"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SECTION 4: FOCUS BLOCKER -->
+            <div id="section-4" class="section px-8 py-8 hidden">
+                <h1 class="text-4xl font-bold mb-8">Website &amp; App Blocker</h1>
+                <div class="max-w-xl mx-auto glass-card rounded-3xl p-10">
+                    <div class="flex justify-between mb-8">
+                        <div class="font-medium">Currently blocking 7 distracting sites</div>
+                        <label class="relative inline-flex cursor-pointer">
+                            <input type="checkbox" id="blocker-toggle" checked onchange="toggleBlocker()" class="sr-only peer">
+                            <div class="w-14 h-7 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:bg-red-400"></div>
+                        </label>
+                    </div>
+                    
+                    <div id="blocked-list" class="space-y-4"></div>
+                    
+                    <div onclick="addFakeBlock()" class="mt-8 flex items-center justify-center gap-3 border border-dashed border-white/30 rounded-3xl py-6 text-blue-400 cursor-pointer">
+                        <i class="fa-solid fa-plus"></i> ADD NEW SITE TO BLOCK
+                    </div>
+                    
+                    <div id="blocker-message" class="hidden mt-8 p-6 bg-red-400/10 border border-red-400/30 text-red-400 rounded-3xl text-center text-xl font-medium">
+                        Bro… back to work.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 5: SMART PLANNER -->
+            <div id="section-5" class="section px-8 py-8 hidden">
+                <h1 class="text-4xl font-bold mb-8">Smart Planner</h1>
+                <div class="glass-card p-8 rounded-3xl max-w-2xl">
+                    <div class="flex justify-between text-xs uppercase mb-6"><span>Today's goals</span><span class="text-blue-400">3 synced with timer</span></div>
+                    <div class="space-y-6">
+                        <div class="flex gap-4 items-center"><input type="checkbox" checked class="w-5 h-5 accent-blue-400"><div class="flex-1">Finish quarterly report draft</div><span class="text-xs font-mono bg-blue-400/10 text-blue-400 px-3 py-1 rounded-3xl">45 min</span></div>
+                        <div class="flex gap-4 items-center"><input type="checkbox" class="w-5 h-5 accent-blue-400"><div class="flex-1">Review code PRs</div><span class="text-xs font-mono bg-blue-400/10 text-blue-400 px-3 py-1 rounded-3xl">60 min</span></div>
+                        <div class="flex gap-4 items-center"><input type="checkbox" checked class="w-5 h-5 accent-blue-400"><div class="flex-1">Deep research on AI agents</div><span class="text-xs font-mono bg-blue-400/10 text-blue-400 px-3 py-1 rounded-3xl">90 min</span></div>
+                    </div>
+                    <button onclick="syncWithSession()" class="mt-10 w-full py-6 bg-blue-500 text-black font-semibold rounded-3xl">SYNC ALL GOALS TO NEXT TIMER SESSION</button>
+                </div>
+            </div>
+
+            <!-- SECTION 6: AI COACH -->
+            <div id="section-6" class="section px-8 py-8 hidden">
+                <h1 class="text-4xl font-bold mb-8">🤖 AI Focus Coach</h1>
+                <div class="max-w-2xl mx-auto glass-card p-10 rounded-3xl">
+                    <div id="coach-response" class="text-xl leading-relaxed mb-12"></div>
+                    <button onclick="askAICoach()" 
+                            class="w-full py-6 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium rounded-3xl">Ask AI Coach anything about my focus</button>
+                    
+                    <div class="grid grid-cols-2 gap-4 mt-10 text-sm">
+                        <div onclick="quickCoachQuery('burnout')" class="glass-inner p-5 rounded-3xl cursor-pointer">Detect burnout patterns</div>
+                        <div onclick="quickCoachQuery('ideal-duration')" class="glass-inner p-5 rounded-3xl cursor-pointer">Suggest ideal session length</div>
+                        <div onclick="quickCoachQuery('motivation')" class="glass-inner p-5 rounded-3xl cursor-pointer">Give me a motivational nudge</div>
+                        <div onclick="quickCoachQuery('pomodoro')" class="glass-inner p-5 rounded-3xl cursor-pointer">Why do I lose focus after 25 mins?</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTO SESSION SUMMARY MODAL -->
+    <div id="summary-modal" onclick="if(event.target.id === 'summary-modal')hideSummary()" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xl z-[9999] flex items-center justify-center">
+        <div onclick="event.stopImmediatePropagation()" class="glass-card max-w-2xl w-full mx-4 rounded-3xl p-10">
+            <h2 class="text-3xl font-bold text-center mb-8">Session Complete • Focus Score: <span id="modal-score" class="text-blue-400">94</span></h2>
+            
+            <div class="flex justify-center gap-8 mb-12">
+                <div class="text-center">
+                    <div class="text-7xl font-mono" id="modal-time">1h 14m</div>
+                    <div class="text-xs text-gray-400">DEEP WORK</div>
+                </div>
+                <div>
+                    <canvas id="interrupt-graph" width="280" height="160"></canvas>
+                </div>
+            </div>
+            
+            <div class="bg-white/5 rounded-3xl p-6 mb-8">
+                <p class="font-medium mb-4">AI Suggestions</p>
+                <ul id="modal-suggestions" class="space-y-3 text-sm"></ul>
+            </div>
+            
+            <div class="flex gap-4">
+                <button onclick="hideSummary()" class="flex-1 py-6 border border-white/30 rounded-3xl">Close</button>
+                <button onclick="hideSummary();navigateTo(2)" class="flex-1 py-6 bg-blue-500 text-black rounded-3xl">View full analytics</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Timer (visible during active session) -->
+    <div id="floating-timer" onclick="if(!event.target.closest('button'))navigateTo(1)" 
+         class="hidden fixed bottom-8 right-8 bg-[#0a0a0a] border border-blue-400/50 text-blue-400 font-mono text-3xl px-8 py-4 rounded-3xl shadow-2xl shadow-blue-500/30 flex items-center gap-4 cursor-pointer hover:scale-105 transition-all">
+        <span id="float-min">42</span>:<span id="float-sec">18</span>
+        <button onclick="event.stopImmediatePropagation();toggleTimer()" class="ml-4 text-2xl">⏸️</button>
+        <button onclick="event.stopImmediatePropagation();endSession()" class="text-red-400">END</button>
+    </div>
+
+    <style>
+        .glass-card {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px -12px rgb(0 180 255);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+        .glass-inner {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+        }
+        .nav-item.active {
+            background: rgba(0, 180, 255, 0.15) !important;
+            color: rgb(0 180 255);
+        }
+        .theme-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .section {
+            animation: fadeInSection 0.4s ease forwards;
+        }
+        @keyframes fadeInSection {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>
